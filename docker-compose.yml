@@ -1,0 +1,14 @@
+version: '3.1'
+services:
+  db:
+    image: mongo:3.0
+    command: mongod --smallfiles --quiet
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/crowler_quotes
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
